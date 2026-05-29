@@ -1,0 +1,107 @@
+{
+    "name": "gilmariosantos/erp-saas",
+    "description": "ERP SaaS multi-tenant para empresas brasileiras — Laravel 11",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/passport": "^12.0",
+        "laravel/horizon": "^5.28",
+        "laravel/telescope": "^5.2",
+
+        "stancl/tenancy": "^3.8",
+
+        "nfephp-org/sped-nfe": "^5.3",
+        "nfephp-org/sped-cte": "^4.3",
+        "nfephp-org/sped-mdfe": "^3.3",
+        "nfephp-org/sped-nfse": "^1.1",
+        "nfephp-org/sped-common": "^6.0",
+        "nfephp-org/sped-da": "^2.0",
+
+        "spatie/laravel-permission": "^6.9",
+        "spatie/laravel-activitylog": "^4.8",
+        "spatie/laravel-query-builder": "^5.8",
+        "spatie/laravel-data": "^4.9",
+        "spatie/laravel-medialibrary": "^11.9",
+
+        "barryvdh/laravel-dompdf": "^3.0",
+        "maatwebsite/excel": "^3.1",
+
+        "intervention/image": "^3.6",
+        "league/flysystem-aws-s3-v3": "^3.29",
+
+        "knuckleswtf/scribe": "^4.37",
+
+        "livewire/livewire": "^3.5",
+        "wire-elements/modal": "^1.0",
+
+        "guzzlehttp/guzzle": "^7.9",
+        "brick/money": "^0.9",
+        "ramsey/uuid": "^4.7"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.18",
+        "laravel/sail": "^1.37",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^3.4",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest-plugin-livewire": "^3.0",
+        "phpunit/phpunit": "^11.3",
+        "brianium/paratest": "^7.4",
+        "nunomaduro/larastan": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php artisan storage:link --ansi"
+        ],
+        "test": "php artisan test --parallel",
+        "test:coverage": "php artisan test --coverage --min=80",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "pint": "vendor/bin/pint"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/telescope"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

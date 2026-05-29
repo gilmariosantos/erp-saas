@@ -1,0 +1,171 @@
+version: '3.9'
+
+services:
+
+  # ─── Aplicação PHP ────────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: erp_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      - PHP_IDE_CONFIG=serverName=erp-saas
+    networks:
+      - erp_network
+    depends_on:
+      - mysql
+      - redis
+
+  # ─── Nginx ────────────────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: erp_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    networks:
+      - erp_network
+    depends_on:
+      - app
+
+  # ─── MySQL 8 ──────────────────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: erp_mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+      MYSQL_DATABASE: ${DB_DATABASE:-erp_landlord}
+      MYSQL_USER: ${DB_USERNAME:-erp}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - erp_network
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --innodb-buffer-pool-size=256M
+      --slow-query-log=1
+      --slow-query-log-file=/var/lib/mysql/slow.log
+      --long-query-time=2
+
+  # ─── Redis ────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: erp_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - erp_network
+
+  # ─── Laravel Horizon (filas) ──────────────────────────────────────────────
+  horizon:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: erp_horizon
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    command: php artisan horizon
+    networks:
+      - erp_network
+    depends_on:
+      - redis
+      - mysql
+
+  # ─── Laravel Scheduler ────────────────────────────────────────────────────
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: erp_scheduler
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    command: >
+      sh -c "while true; do php artisan schedule:run --verbose --no-interaction & sleep 60; done"
+    networks:
+      - erp_network
+    depends_on:
+      - mysql
+      - redis
+
+  # ─── Mailpit (dev email) ──────────────────────────────────────────────────
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: erp_mail
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - erp_network
+
+  # ─── MinIO (S3 local para XMLs/PDFs) ──────────────────────────────────────
+  minio:
+    image: minio/minio:latest
+    container_name: erp_minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - erp_network
+
+  # ─── phpMyAdmin (dev) ─────────────────────────────────────────────────────
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: erp_pma
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: ${DB_USERNAME:-erp}
+      PMA_PASSWORD: ${DB_PASSWORD:-secret}
+    networks:
+      - erp_network
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+
+networks:
+  erp_network:
+    driver: bridge
