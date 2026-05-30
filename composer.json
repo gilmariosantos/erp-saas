@@ -1,6 +1,6 @@
 {
     "name": "gilmariosantos/erp-saas",
-    "description": "ERP SaaS multi-tenant para empresas brasileiras — Laravel 11",
+    "description": "ERP SaaS multi-tenant para empresas brasileiras \u2014 Laravel 11",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -10,36 +10,29 @@
         "laravel/passport": "^12.0",
         "laravel/horizon": "^5.28",
         "laravel/telescope": "^5.2",
-
         "stancl/tenancy": "^3.8",
-
         "nfephp-org/sped-nfe": "^5.3",
         "nfephp-org/sped-cte": "^4.3",
         "nfephp-org/sped-mdfe": "^3.3",
         "nfephp-org/sped-nfse": "^1.1",
         "nfephp-org/sped-common": "^6.0",
         "nfephp-org/sped-da": "^2.0",
-
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-data": "^4.9",
         "spatie/laravel-medialibrary": "^11.9",
-
         "barryvdh/laravel-dompdf": "^3.0",
         "maatwebsite/excel": "^3.1",
-
         "intervention/image": "^3.6",
         "league/flysystem-aws-s3-v3": "^3.29",
-
         "knuckleswtf/scribe": "^4.37",
-
         "livewire/livewire": "^3.5",
         "wire-elements/modal": "^1.0",
-
         "guzzlehttp/guzzle": "^7.9",
         "brick/money": "^0.9",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "pragmarx/google2fa": "^8.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
