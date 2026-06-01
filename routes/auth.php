@@ -42,3 +42,11 @@ Route::prefix('api/v1/assinatura')->middleware('auth:sanctum')->group(function (
     Route::post('cobranca',[\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'gerarCobranca']);
     Route::post('cancelar',[\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'cancelar']);
 });
+
+// ─── Certificado digital (contexto tenant) ───────────────────────────────
+Route::prefix('api/v1/fiscal/certificado')->middleware('auth:sanctum')->group(function () {
+    Route::post('validar', [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'validar']);
+    Route::post('upload',  [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'upload']);
+    Route::get('{empresa}/info', [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'info']);
+    Route::delete('{empresa}', [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'remover']);
+});

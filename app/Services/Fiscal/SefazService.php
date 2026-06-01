@@ -205,4 +205,28 @@ class SefazService
     {
         return $this->parseRetornoNfe($resp); // Estrutura XML similar
     }
+
+    /**
+     * Consulta o status operacional do web service da SEFAZ.
+     * Útil antes de emitir para evitar falhas por indisponibilidade.
+     *
+     * @return array{operacional: bool, cStat: int, motivo: string}
+     */
+    public function statusServico(Empresa $empresa): array
+    {
+        try {
+            $tools = $this->buildNfeTools($empresa);
+            $resp = $tools->sefazStatus();
+            $parsed = $this->parseRetornoNfe($resp);
+
+            return [
+                'operacional' => (int) $parsed['cStat'] === 107,
+                'cStat'       => $parsed['cStat'],
+                'motivo'      => $parsed['xMotivo'],
+            ];
+        } catch (\Throwable $e) {
+            return ['operacional' => false, 'cStat' => 0, 'motivo' => $e->getMessage()];
+        }
+    }
+
 }
