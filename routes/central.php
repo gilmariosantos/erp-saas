@@ -33,3 +33,9 @@ Route::prefix('api/admin')->group(function () {
         Route::post('tenants/{tenantId}/reativar',  [TenantAdminController::class, 'reativar']);
     });
 });
+
+// ─── Webhooks de pagamento (sem auth — validados por assinatura) ─────────
+Route::prefix('api/webhooks')->group(function () {
+    Route::post('asaas',       [\App\Http\Controllers\Central\Billing\WebhookController::class, 'asaas']);
+    Route::post('mercadopago', [\App\Http\Controllers\Central\Billing\WebhookController::class, 'mercadopago']);
+});

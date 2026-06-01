@@ -31,6 +31,16 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return ['suspenso_em' => 'datetime'];
     }
 
+    public function subscription()
+    {
+        return $this->hasOne(TenantSubscription::class)->latestOfMany();
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function isAtivo(): bool { return $this->status === 'ativo'; }
     public function isSuspenso(): bool { return $this->status === 'suspenso'; }
 }

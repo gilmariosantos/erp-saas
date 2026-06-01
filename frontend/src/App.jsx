@@ -14,6 +14,7 @@ import Estoque from '@/pages/estoque/Estoque'
 import Vendas from '@/pages/vendas/Vendas'
 import NotasFiscais from '@/pages/fiscal/NotasFiscais'
 import Ctes from '@/pages/fiscal/Ctes'
+import Assinatura from '@/pages/Assinatura'
 
 /**
  * Protege rotas que exigem autenticação.
@@ -60,6 +61,7 @@ export default function App() {
       <Route path="/vendas" element={<RotaProtegida><Vendas /></RotaProtegida>} />
       <Route path="/fiscal/nfe" element={<RotaProtegida><NotasFiscais /></RotaProtegida>} />
       <Route path="/fiscal/cte" element={<RotaProtegida><Ctes /></RotaProtegida>} />
+      <Route path="/assinatura" element={<RotaProtegida><Assinatura /></RotaProtegida>} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

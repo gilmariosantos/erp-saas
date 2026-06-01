@@ -34,3 +34,11 @@ Route::prefix('api/auth')->group(function () {
         Route::post('2fa/desativar', [TwoFactorController::class, 'desativar']);
     });
 });
+
+// ─── Assinatura (contexto tenant, autenticado) ───────────────────────────
+Route::prefix('api/v1/assinatura')->middleware('auth:sanctum')->group(function () {
+    Route::get('status',   [\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'status']);
+    Route::get('faturas',  [\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'faturas']);
+    Route::post('cobranca',[\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'gerarCobranca']);
+    Route::post('cancelar',[\App\Http\Controllers\Tenant\Billing\AssinaturaController::class, 'cancelar']);
+});

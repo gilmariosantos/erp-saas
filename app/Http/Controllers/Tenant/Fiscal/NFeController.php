@@ -92,6 +92,11 @@ class NFeController extends Controller
             ], 422);
         }
 
+        // Verifica limite do plano antes de emitir (enforcement de billing).
+        // Lança LimiteExcedidoException (HTTP 402) se a cota mensal foi atingida.
+        $tipo = $nfe->modelo === '65' ? 'nfce' : 'nfe';
+        app(\App\Services\Billing\UsageLimitService::class)->verificarLimite(tenant(), $tipo);
+
         // Dispara job assíncrono — não bloqueia a requisição
         EmitirNfe::dispatch($nfe)->onQueue('fiscal');
 
