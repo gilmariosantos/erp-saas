@@ -226,7 +226,7 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            cd /var/www/erp-production
+            cd /var/www/erp-saas
             php artisan down --secret="${{ secrets.MAINTENANCE_TOKEN }}"
             git pull origin main
             composer install --no-interaction --prefer-dist --optimize-autoloader
