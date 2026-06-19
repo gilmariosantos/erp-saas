@@ -84,4 +84,14 @@ Route::middleware(['auth:sanctum', 'throttle:api'])
             Route::post('ciot/gerar',           [CTeController::class, 'gerarCiot']);
             Route::get('ciot/{ciot}/consultar', [CTeController::class, 'consultarCiot']);
         });
+
+        // Ordem de Serviço
+        Route::prefix('servicos')->group(function () {
+            Route::apiResource('ordens', \App\Http\Controllers\Tenant\Servicos\OrdemServicoController::class)
+                ->parameters(['ordens' => 'ordemServico']);
+            Route::post('ordens/{ordemServico}/aprovar',   [\App\Http\Controllers\Tenant\Servicos\OrdemServicoController::class, 'aprovar']);
+            Route::post('ordens/{ordemServico}/finalizar', [\App\Http\Controllers\Tenant\Servicos\OrdemServicoController::class, 'finalizar']);
+            Route::post('ordens/{ordemServico}/cancelar',  [\App\Http\Controllers\Tenant\Servicos\OrdemServicoController::class, 'cancelar']);
+        });
+
     });

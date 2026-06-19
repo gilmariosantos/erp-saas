@@ -33,6 +33,8 @@ class RoleSeederService
         'nfe.ver', 'nfe.emitir', 'nfe.cancelar', 'nfe.inutilizar',
         'cte.ver', 'cte.emitir', 'cte.cancelar', 'ciot.gerar',
         'nfse.ver', 'nfse.emitir', 'nfse.cancelar',
+        // Ordem de Serviço
+        'os.ver', 'os.criar', 'os.editar', 'os.aprovar', 'os.finalizar', 'os.cancelar',
         // Relatórios e config
         'dashboard.ver', 'relatorios.ver',
         'usuarios.ver', 'usuarios.gerenciar', 'configuracoes.gerenciar',
@@ -56,6 +58,7 @@ class RoleSeederService
         'operador' => [
             'dashboard.ver', 'estoque.ver', 'estoque.movimentar',
             'compras.ver', 'compras.receber', 'produtos.ver',
+            'os.ver', 'os.criar', 'os.editar', 'os.finalizar',
         ],
     ];
 

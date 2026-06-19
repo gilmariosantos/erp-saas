@@ -46,3 +46,10 @@ export const fiscalApi = {
     gerarCiot: (data) => api.post('/v1/fiscal/ciot/gerar', data),
   },
 }
+
+export const ordensServicoApi = {
+  ...crud('servicos/ordens'),
+  aprovar: (id) => api.post(`/v1/servicos/ordens/${id}/aprovar`),
+  finalizar: (id, data) => api.post(`/v1/servicos/ordens/${id}/finalizar`, data),
+  cancelar: (id, data) => api.post(`/v1/servicos/ordens/${id}/cancelar`, data),
+}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Users, Package, DollarSign, Warehouse,
-  ShoppingCart, FileText, Truck, LogOut, Menu, X, Moon, Sun,
+  ShoppingCart, FileText, Truck, LogOut, Menu, X, Moon, Sun, Wrench,
 } from 'lucide-react'
 import { useAuthStore } from '@/contexts/authStore'
 
@@ -13,6 +13,7 @@ const menuItems = [
   { to: '/financeiro', icon: DollarSign, label: 'Financeiro', permission: 'financeiro.ver' },
   { to: '/estoque', icon: Warehouse, label: 'Estoque', permission: 'estoque.ver' },
   { to: '/vendas', icon: ShoppingCart, label: 'Vendas', permission: 'vendas.ver' },
+  { to: '/servicos', icon: Wrench, label: 'Ordens de Serviço', permission: 'os.ver' },
   { to: '/fiscal/nfe', icon: FileText, label: 'Notas Fiscais', permission: 'nfe.ver' },
   { to: '/fiscal/cte', icon: Truck, label: 'CT-e / CIOT', permission: 'cte.ver' },
 ]
