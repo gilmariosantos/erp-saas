@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { vendasApi } from '@/api'
@@ -7,6 +8,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatMoeda, formatData } from '@/lib/utils'
+import { PedidoVendaForm } from './PedidoVendaForm'
 
 const statusCor = {
   rascunho: 'gray', aguardando_aprovacao: 'yellow', aprovado: 'blue',
@@ -14,6 +16,7 @@ const statusCor = {
 }
 
 export default function Vendas() {
+  const [formAberto, setFormAberto] = useState(false)
   const { data, isLoading } = useQuery({
     queryKey: ['vendas'],
     queryFn: async () => (await vendasApi.list()).data,
@@ -38,11 +41,13 @@ export default function Vendas() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Vendas</h1>
-        <Button><Plus size={18} /> Novo pedido</Button>
+        <Button onClick={() => setFormAberto(true)}><Plus size={18} /> Novo pedido</Button>
       </div>
       <Card>
         {isLoading ? <Spinner /> : <Table columns={colunas} data={data?.data || []} />}
       </Card>
+
+      <PedidoVendaForm open={formAberto} onClose={() => setFormAberto(false)} />
     </div>
   )
 }
