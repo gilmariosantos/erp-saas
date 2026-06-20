@@ -16,7 +16,7 @@ class Cte extends Model
 
     protected $fillable = [
         'empresa_id','chave_acesso','numero','serie','modelo','ambiente',
-        'tipo_emissao','tipo_ct','tipo_servico','data_emissao',
+        'tipo_emissao','tipo_ct','tipo_servico','cte_referenciado_chave','data_emissao',
         'natureza_operacao','cfop','modal',
         'emitente_cnpj','emitente_razao_social','emitente_ie','emitente_uf','emitente_rntrc',
         'remetente_id','remetente_cnpj_cpf','remetente_nome','remetente_ie','remetente_endereco',
