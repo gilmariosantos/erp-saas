@@ -53,3 +53,9 @@ export const ordensServicoApi = {
   finalizar: (id, data) => api.post(`/v1/servicos/ordens/${id}/finalizar`, data),
   cancelar: (id, data) => api.post(`/v1/servicos/ordens/${id}/cancelar`, data),
 }
+
+export const tiposOsApi = crud('servicos/config/tipos')
+export const statusOsApi = {
+  ...crud('servicos/config/status'),
+  reordenar: (ordem) => api.post('/v1/servicos/config/status/reordenar', { ordem }),
+}

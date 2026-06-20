@@ -94,4 +94,14 @@ Route::middleware(['auth:sanctum', 'throttle:api'])
             Route::post('ordens/{ordemServico}/cancelar',  [\App\Http\Controllers\Tenant\Servicos\OrdemServicoController::class, 'cancelar']);
         });
 
+
+        // Configuração de OS (tipos e status)
+        Route::prefix('servicos/config')->group(function () {
+            Route::apiResource('tipos', \App\Http\Controllers\Tenant\Servicos\TipoOsController::class)
+                ->parameters(['tipos' => 'tipoOs'])->except(['show']);
+            Route::apiResource('status', \App\Http\Controllers\Tenant\Servicos\StatusOsController::class)
+                ->parameters(['status' => 'statusOs'])->except(['show']);
+            Route::post('status/reordenar', [\App\Http\Controllers\Tenant\Servicos\StatusOsController::class, 'reordenar']);
+        });
+
     });

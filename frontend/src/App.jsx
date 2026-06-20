@@ -17,6 +17,7 @@ import Ctes from '@/pages/fiscal/Ctes'
 import Assinatura from '@/pages/Assinatura'
 import Certificado from '@/pages/fiscal/Certificado'
 import OrdensServico from '@/pages/servicos/OrdensServico'
+import ConfiguracaoOS from '@/pages/servicos/ConfiguracaoOS'
 
 /**
  * Protege rotas que exigem autenticação.
@@ -66,6 +67,7 @@ export default function App() {
       <Route path="/assinatura" element={<RotaProtegida><Assinatura /></RotaProtegida>} />
       <Route path="/fiscal/certificado" element={<RotaProtegida><Certificado /></RotaProtegida>} />
       <Route path="/servicos" element={<RotaProtegida><OrdensServico /></RotaProtegida>} />
+      <Route path="/servicos/config" element={<RotaProtegida><ConfiguracaoOS /></RotaProtegida>} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
