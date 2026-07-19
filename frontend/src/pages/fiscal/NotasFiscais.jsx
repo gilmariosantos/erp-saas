@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Send, Download } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatMoeda, formatData } from '@/lib/utils'
+import { NFeForm } from './NFeForm'
 
 const statusCor = {
   rascunho: 'gray', pendente: 'yellow', processando: 'blue',
@@ -15,6 +17,7 @@ const statusCor = {
 }
 
 export default function NotasFiscais() {
+  const [formAberto, setFormAberto] = useState(false)
   const qc = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ['nfes'],
@@ -69,11 +72,12 @@ export default function NotasFiscais() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Notas Fiscais (NF-e)</h1>
-        <Button><Plus size={18} /> Nova NF-e</Button>
+        <Button onClick={() => setFormAberto(true)}><Plus size={18} /> Nova NF-e</Button>
       </div>
       <Card>
         {isLoading ? <Spinner /> : <Table columns={colunas} data={data?.data || []} />}
       </Card>
+    <NFeForm open={formAberto} onClose={() => setFormAberto(false)} />
     </div>
   )
 }

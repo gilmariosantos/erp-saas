@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { fiscalApi } from '@/api'
@@ -7,10 +8,12 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatMoeda, formatData } from '@/lib/utils'
+import { CTeForm } from './CTeForm'
 
 const statusCor = { rascunho: 'gray', autorizada: 'green', cancelada: 'red', rejeitada: 'orange' }
 
 export default function Ctes() {
+  const [formAberto, setFormAberto] = useState(false)
   const { data, isLoading } = useQuery({
     queryKey: ['ctes'],
     queryFn: async () => (await fiscalApi.ctes.list()).data,
@@ -31,11 +34,12 @@ export default function Ctes() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">CT-e / CIOT</h1>
-        <Button><Plus size={18} /> Novo CT-e</Button>
+        <Button onClick={() => setFormAberto(true)}><Plus size={18} /> Novo CT-e</Button>
       </div>
       <Card>
         {isLoading ? <Spinner /> : <Table columns={colunas} data={data?.data || []} />}
       </Card>
+    <CTeForm open={formAberto} onClose={() => setFormAberto(false)} />
     </div>
   )
 }
