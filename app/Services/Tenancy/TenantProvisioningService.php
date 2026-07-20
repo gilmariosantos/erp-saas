@@ -176,6 +176,10 @@ class TenantProvisioningService
             'is_matriz'         => true,
         ]);
 
+        // Cria os tipos e status padrão de Ordem de Serviço para a empresa.
+        // O cliente pode customizá-los depois em Configuração de OS.
+        app(\App\Services\Servicos\StatusOsSeederService::class)->criarPadroes($empresa->id);
+
         $user = \App\Models\User::create([
             'name'      => $dados['nome_responsavel'],
             'email'     => $dados['email'],
