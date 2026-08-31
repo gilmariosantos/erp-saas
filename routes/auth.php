@@ -50,3 +50,9 @@ Route::prefix('api/v1/fiscal/certificado')->middleware('auth:sanctum')->group(fu
     Route::get('{empresa}/info', [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'info']);
     Route::delete('{empresa}', [\App\Http\Controllers\Tenant\Fiscal\CertificadoController::class, 'remover']);
 });
+
+// ─── Mudança de plano (tenant autenticado) ───────────────────────────────
+Route::prefix('api/v1/assinatura/plano')->middleware('auth:sanctum')->group(function () {
+    Route::post('simular', [\App\Http\Controllers\Tenant\Billing\MudarPlanoController::class, 'simular']);
+    Route::post('mudar',   [\App\Http\Controllers\Tenant\Billing\MudarPlanoController::class, 'mudar']);
+});

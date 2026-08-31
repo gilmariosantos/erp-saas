@@ -39,3 +39,6 @@ Route::prefix('api/webhooks')->group(function () {
     Route::post('asaas',       [\App\Http\Controllers\Central\Billing\WebhookController::class, 'asaas']);
     Route::post('mercadopago', [\App\Http\Controllers\Central\Billing\WebhookController::class, 'mercadopago']);
 });
+
+// ─── Planos (público — para a página de pricing) ─────────────────────────
+Route::get('api/planos', [\App\Http\Controllers\Central\Billing\PlanoController::class, 'index']);

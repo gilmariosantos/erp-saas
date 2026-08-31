@@ -6,6 +6,7 @@ import { Spinner } from '@/components/ui/Spinner'
 
 import Login from '@/pages/auth/Login'
 import Registrar from '@/pages/auth/Registrar'
+import Planos from '@/pages/Planos'
 import Dashboard from '@/pages/Dashboard'
 import Pessoas from '@/pages/cadastros/Pessoas'
 import Produtos from '@/pages/cadastros/Produtos'
@@ -54,6 +55,7 @@ export default function App() {
       {/* Rotas públicas */}
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/registrar" element={user ? <Navigate to="/" replace /> : <Registrar />} />
+      <Route path="/planos" element={<Planos />} />
 
       {/* Rotas protegidas */}
       <Route path="/" element={<RotaProtegida><Dashboard /></RotaProtegida>} />

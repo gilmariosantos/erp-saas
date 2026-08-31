@@ -59,3 +59,9 @@ export const statusOsApi = {
   ...crud('servicos/config/status'),
   reordenar: (ordem) => api.post('/v1/servicos/config/status/reordenar', { ordem }),
 }
+
+export const planosApi = {
+  listarPublico: () => api.get('/planos'),
+  simular: (data) => api.post('/v1/assinatura/plano/simular', data),
+  mudar: (data) => api.post('/v1/assinatura/plano/mudar', data),
+}

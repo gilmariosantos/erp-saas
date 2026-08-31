@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatMoeda, formatData } from '@/lib/utils'
+import { MudarPlano } from './MudarPlano'
 
 const assinaturaApi = {
   status: () => api.get('/v1/assinatura/status'),
@@ -53,6 +54,8 @@ export default function Assinatura() {
         <MetricCard label="NF-e este mês" value={`${uso.nfe?.usado || 0} / ${uso.nfe?.limite || 0}`} color={uso.nfe?.percentual > 80 ? 'amber' : 'green'} />
         <MetricCard label="CT-e este mês" value={`${uso.cte?.usado || 0} / ${uso.cte?.limite || 0}`} color="brand" />
       </div>
+
+      <MudarPlano planoAtualId={assin?.plan_id} />
 
       <Card>
         <h3 className="font-medium mb-4">Gerar pagamento</h3>
