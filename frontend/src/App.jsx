@@ -7,6 +7,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import Login from '@/pages/auth/Login'
 import Registrar from '@/pages/auth/Registrar'
 import Planos from '@/pages/Planos'
+import Landing from '@/pages/Landing'
 import Dashboard from '@/pages/Dashboard'
 import Pessoas from '@/pages/cadastros/Pessoas'
 import Produtos from '@/pages/cadastros/Produtos'
@@ -58,7 +59,8 @@ export default function App() {
       <Route path="/planos" element={<Planos />} />
 
       {/* Rotas protegidas */}
-      <Route path="/" element={<RotaProtegida><Dashboard /></RotaProtegida>} />
+      <Route path="/" element={user ? <RotaProtegida><Dashboard /></RotaProtegida> : <Landing />} />
+      <Route path="/painel" element={<RotaProtegida><Dashboard /></RotaProtegida>} />
       <Route path="/pessoas" element={<RotaProtegida><Pessoas /></RotaProtegida>} />
       <Route path="/produtos" element={<RotaProtegida><Produtos /></RotaProtegida>} />
       <Route path="/financeiro" element={<RotaProtegida><Financeiro /></RotaProtegida>} />

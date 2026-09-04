@@ -7,7 +7,7 @@ import {
 import { useAuthStore } from '@/contexts/authStore'
 
 const menuItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard', permission: 'dashboard.ver' },
+  { to: '/painel', icon: LayoutDashboard, label: 'Dashboard', permission: 'dashboard.ver' },
   { to: '/pessoas', icon: Users, label: 'Clientes / Fornecedores', permission: 'pessoas.ver' },
   { to: '/produtos', icon: Package, label: 'Produtos', permission: 'produtos.ver' },
   { to: '/financeiro', icon: DollarSign, label: 'Financeiro', permission: 'financeiro.ver' },
