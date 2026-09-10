@@ -65,3 +65,7 @@ export const planosApi = {
   simular: (data) => api.post('/v1/assinatura/plano/simular', data),
   mudar: (data) => api.post('/v1/assinatura/plano/mudar', data),
 }
+
+export const onboardingStatusApi = {
+  status: () => api.get('/v1/onboarding/status'),
+}

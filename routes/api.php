@@ -104,4 +104,8 @@ Route::middleware(['auth:sanctum', 'throttle:api'])
             Route::post('status/reordenar', [\App\Http\Controllers\Tenant\Servicos\StatusOsController::class, 'reordenar']);
         });
 
+
+        // Status de onboarding (primeiros passos)
+        Route::get('onboarding/status', \App\Http\Controllers\Tenant\OnboardingStatusController::class);
+
     });

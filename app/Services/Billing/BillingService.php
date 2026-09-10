@@ -198,6 +198,24 @@ class BillingService
                 $this->provisioning->reativar($tenant);
             }
 
+            // E-mail de pagamento confirmado (best-effort)
+            if ($tenant && $tenant->email_responsavel) {
+                try {
+                    $plano = DB::table('plans')->where('id', $subscription?->plan_id)->first();
+                    \Illuminate\Support\Facades\Mail::to($tenant->email_responsavel)->send(
+                        new \App\Mail\PagamentoConfirmadoMail(
+                            nomeResponsavel: $tenant->nome_responsavel ?? 'cliente',
+                            numeroFatura: $invoice->numero,
+                            valor: (float) $invoice->valor,
+                            planoNome: $plano->name ?? 'Assinatura',
+                            proximaCobranca: $subscription?->proxima_cobranca?->format('d/m/Y') ?? '—',
+                        )
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('Falha ao enviar e-mail de pagamento confirmado', ['erro' => $e->getMessage()]);
+                }
+            }
+
             Log::info('Pagamento confirmado', ['invoice_id' => $invoice->id, 'tenant' => $invoice->tenant_id]);
         });
     }

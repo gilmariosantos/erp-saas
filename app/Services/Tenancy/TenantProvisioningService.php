@@ -107,6 +107,20 @@ class TenantProvisioningService
                 'email'     => $dados['email'],
             ]);
 
+            // E-mail de boas-vindas (best-effort — não quebra o provisionamento se falhar)
+            try {
+                $dominio = config('tenancy.central_domains')[0] ?? config('app.url');
+                \Illuminate\Support\Facades\Mail::to($dados['email'])->send(
+                    new \App\Mail\BoasVindasMail(
+                        nomeResponsavel: $dados['nome_responsavel'],
+                        razaoSocial: $dados['razao_social'],
+                        urlSistema: "https://{$tenant->subdominio}.{$dominio}",
+                    )
+                );
+            } catch (\Throwable $e) {
+                Log::warning('Falha ao enviar e-mail de boas-vindas', ['erro' => $e->getMessage()]);
+            }
+
             return $tenant;
 
         } catch (Throwable $e) {

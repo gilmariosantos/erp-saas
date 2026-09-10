@@ -8,6 +8,8 @@ import {
   CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
 import { dashboardApi } from '@/api/dashboard'
+import { onboardingStatusApi } from '@/api'
+import { OnboardingGuia } from '@/components/OnboardingGuia'
 import { MetricCard, Card } from '@/components/ui/Card'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatMoeda } from '@/lib/utils'
@@ -30,6 +32,12 @@ export default function Dashboard() {
     },
   })
 
+  const { data: onboarding } = useQuery({
+    queryKey: ['onboarding-status'],
+    queryFn: async () => (await onboardingStatusApi.status()).data,
+    retry: false,
+  })
+
   if (isLoading) return <Spinner size={40} />
   if (error) return <p className="text-red-500">Erro ao carregar dashboard.</p>
 
@@ -49,6 +57,8 @@ export default function Dashboard() {
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm">Visão geral do mês atual</p>
       </div>
+
+      {onboarding && <OnboardingGuia status={onboarding} />}
 
       {/* KPIs financeiros */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
