@@ -7,7 +7,7 @@ use App\Models\Nfe;
 use App\Models\PedidoVenda;
 use App\Models\PedidoVendaItem;
 use App\Models\Produto;
-use App\Models\RegrasComissao;
+use App\Models\RegraComissao;
 use App\Services\Estoque\EstoqueService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
