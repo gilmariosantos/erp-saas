@@ -40,16 +40,21 @@ queries SQL e compatibilidade com a SEFAZ só aparecem na execução real.
 
 ## Passo a passo do go-live
 
-### Fase A — Montar o Laravel (primeira vez)
+### Fase A — Montar o Laravel (primeira vez) — AUTOMATIZADA
 
-O código-fonte precisa ser montado sobre um Laravel instalado:
+O código-fonte precisa do scaffold de runtime do Laravel (artisan,
+bootstrap/, public/, configs padrão), que não está no repositório.
+O composer.json JÁ declara todas as dependências.
 
-1. Num servidor/VM com PHP 8.3, criar projeto Laravel 11 base
-2. Sobrepor os arquivos deste repositório (app/, database/, routes/, resources/)
-3. `composer require` das dependências fiscais:
-   - `nfephp-org/sped-nfe`, `nfephp-org/sped-cte`, `nfephp-org/sped-nfse`
-   - `stancl/tenancy`, `laravel/horizon`, `pragmarx/google2fa`
-4. `composer install` e resolver conflitos de versão que aparecerem
+Use o script pronto, numa máquina com PHP 8.3 + Composer:
+
+```bash
+bash deploy/scripts/montar-laravel.sh /var/www/erp-montado
+```
+
+Ele: baixa Laravel 11 limpo, sobrepõe o código do repo (app/, database/,
+routes/, resources/, configs), roda composer install e key:generate.
+Se o composer acusar conflito de versão, resolver com `composer update`.
 
 ### Fase B — Validar (o passo que falta há muito)
 
